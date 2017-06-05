@@ -1,3 +1,5 @@
+#Code to find the frequency of each distinct word from the overall customer comments.
+
 library(xlsx)
 df = read.xlsx("./nafile.xlsx",1)
 n = nrow(df)
