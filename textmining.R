@@ -1,3 +1,6 @@
+#Code to classify the individual customer comments by emotions like joy, anger, surprise, sadness, fear 
+#and by polarity like positive, negative and neutral
+
 df <- read.csv("./alteryx/data/TrustPilot.csv",header = TRUE)
 some_txt = df$Review.Content
 some_txt = gsub("(RT|via)((?:\\b\\W*@\\w+)+)", "", some_txt)
