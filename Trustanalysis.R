@@ -1,3 +1,9 @@
+#Code to search and replace similar meaning words with a single word. 
+#Search the words like delivery, salesperson, product in the comments to check what is the comment about.
+#Create a column for each word to be searched and assign 1 if the word is present in the comments or assign 0 if the word is not present 
+#in the comments.
+
+
 library(xlsx)
 df = read.xlsx("./Trustdata.xlsx",1)
 m = nrow(df)
@@ -55,29 +61,24 @@ write.xlsx(df, "./Trustdata_final.xlsx")
 
 stop()
 
-
-
 #if(grepl(findwords,df1) == TRUE) print ("thank")
 #a = sapply(findwords, grepl, df1)
 #a = as.data.frame(a)
 #print(a)
 
-words <- strsplit(df1," ")
+#words <- strsplit(df1," ")
 #print(head(words))
 #stop()
-words.freq<-table(words)
-trust = sort(words.freq, decreasing = T)
+#words.freq<-table(words)
+#trust = sort(words.freq, decreasing = T)
 #print(trust[1])
-trust1 = as.data.frame(trust)
+#trust1 = as.data.frame(trust)
 #print(trust1)
 
 #findwords <- c("good", "experience", "you")
 #a = sapply(findwords, grepl, trust1$words)
-print(trust1$words)
+#print(trust1$words)
 
 #print(grep("delivery",trust1$words))
-
-
-
 
 #write.xlsx(trust1, "./WordsFrequency.xlsx")
