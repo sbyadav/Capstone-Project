@@ -1,3 +1,11 @@
+#Code to get the number of overall positive and negative words from a comment.
+#Comment eg. Salesperson was friendly and helpful but delivery guy was rude.
+#Positive words - friendly , helpful (2); Negative words - rude1(1)
+#Overall count - 2-1 = 1
+
+#positive-words.txt - file with 2000 positive words
+#negative-words.txt - file with 4800 negative words
+
 pos_words <- scan('./positive-words.txt', what='character', comment.char=';')
 neg_words <- scan('./negative-words.txt', what='character', comment.char=';')
 
@@ -7,34 +15,30 @@ score.sentiment = function(sentences, pos.words, neg.words, .progress='none')
     require(plyr)
     require(stringr)
      
-    # we got a vector of sentences. plyr will handle a list
-    # or a vector as an "l" for us
-    # we want a simple array ("a") of scores back, so we use 
-    # "l" + "a" + "ply" = "laply":
+    # a simple array ("a") of scores back
     scores = laply(sentences, function(sentence, pos.words, neg.words) {
          
-        # clean up sentences with R's regex-driven global substitute, gsub():
+        # clean the individual comments
         sentence = gsub('[[:punct:]]', '', sentence)
         sentence = gsub('[[:cntrl:]]', '', sentence)
         sentence = gsub('\\d+', '', sentence)
-        # and convert to lower case:
+        # convert to lower case:
         sentence = tolower(sentence)
  
-        # split into words. str_split is in the stringr package
+        # split into words
         word.list = str_split(sentence, '\\s+')
         # sometimes a list() is one level of hierarchy too much
         words = unlist(word.list)
  
-        # compare our words to the dictionaries of positive & negative terms
+        # compare the words to the positive & negative terms
         pos.matches = match(words, pos.words)
         neg.matches = match(words, neg.words)
      
         # match() returns the position of the matched term or NA
-        # we just want a TRUE/FALSE:
+        # TRUE/FALSE
         pos.matches = !is.na(pos.matches)
         neg.matches = !is.na(neg.matches)
  
-        # and conveniently enough, TRUE/FALSE will be treated as 1/0 by sum():
         score = sum(pos.matches) - sum(neg.matches)
  
         return(score)
@@ -45,7 +49,7 @@ score.sentiment = function(sentences, pos.words, neg.words, .progress='none')
 }
 
 #test = c("very good delivery but salesman was very rude")
-df = read.csv("C:\\Users\\sbyad\\Desktop\\courses\\winter 17\\Capstone\\alteryx\\data\\TrustPilot.csv")
+df = read.csv(".\\TrustPilot.csv")
 test = df$Review.Content
 
 result = score.sentiment(test,pos_words,neg_words)
@@ -53,10 +57,6 @@ result = score.sentiment(test,pos_words,neg_words)
 df$result = result$score
 library(xlsx)
 write.xlsx(df, "./Overall.xlsx")
-
-
-
-
 
 #print(head(result))
 #print(result)
